@@ -1198,7 +1198,7 @@ impl<V:Val> Program<V>
             XFormArrangement::Aggregate{aggfun: &aggfun, next} => {
                 let col = with_prof_context(
                     "group",
-                    ||arr.group(move |key, src, dst| dst.push((aggfun(key, src),1)))
+                    ||arr.reduce(move |key, src, dst| dst.push((aggfun(key, src),1)))
                          .map(|(_,v)|v));
                 Self::xform_collection(col, &*next, arrangements)
             },
